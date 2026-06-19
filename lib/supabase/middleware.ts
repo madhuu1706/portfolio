@@ -12,38 +12,41 @@ export async function updateSession(request: NextRequest) {
         getAll() {
           return request.cookies.getAll();
         },
-        setAll(cookiesToSet: { name: string; value: string }[]) {
-          cookiesToSet.forEach(({ name, value }) =>
+        setAll(
+          cookiesToSet: { name: string; value: string; options?: any }[]
+        ) {
+          cookiesToSet.forEach(({ name, value, options }) =>
             request.cookies.set(name, value)
           );
+        }
           supabaseResponse = NextResponse.next({ request });
-          cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options)
-          );
-        },
+        cookiesToSet.forEach(({ name, value, options }) =>
+          supabaseResponse.cookies.set(name, value, options)
+        );
       },
+    },
     }
   );
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+const {
+  data: { user },
+} = await supabase.auth.getUser();
 
-  // Protect admin routes
-  if (request.nextUrl.pathname.startsWith('/admin') && !request.nextUrl.pathname.startsWith('/admin/login')) {
-    if (!user) {
-      const url = request.nextUrl.clone();
-      url.pathname = '/admin/login';
-      return NextResponse.redirect(url);
-    }
-  }
-
-  // Redirect logged-in users away from login page
-  if (request.nextUrl.pathname === '/admin/login' && user) {
+// Protect admin routes
+if (request.nextUrl.pathname.startsWith('/admin') && !request.nextUrl.pathname.startsWith('/admin/login')) {
+  if (!user) {
     const url = request.nextUrl.clone();
-    url.pathname = '/admin/dashboard';
+    url.pathname = '/admin/login';
     return NextResponse.redirect(url);
   }
+}
 
-  return supabaseResponse;
+// Redirect logged-in users away from login page
+if (request.nextUrl.pathname === '/admin/login' && user) {
+  const url = request.nextUrl.clone();
+  url.pathname = '/admin/dashboard';
+  return NextResponse.redirect(url);
+}
+
+return supabaseResponse;
 }
