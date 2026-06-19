@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  ::selection {
+    background: #ff6b35;
+    color: white;
+  }
+
+  :focus-visible {
+    outline: 2px solid #ab3500;
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .prose-portfolio {
+    @apply text-secondary text-base leading-relaxed;
+  }
+  .prose-portfolio p {
+    @apply mb-4;
+  }
+  .prose-portfolio ul {
+    @apply list-disc list-inside space-y-1 mb-4;
+  }
+}

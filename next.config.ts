@@ -1,0 +1,19 @@
+import type { NextConfig } from 'next';
+
+const nextConfig: NextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '*.supabase.co',
+        port: '',
+        pathname: '/storage/v1/object/public/**',
+      },
+    ],
+  },
+  experimental: {
+    // serverActions are enabled by default in Next.js 15
+  },
+};
+
+export default nextConfig;
