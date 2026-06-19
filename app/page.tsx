@@ -7,8 +7,6 @@ import {
   SectionHeading,
   Tag,
   Badge,
-  Skeleton,
-  SkeletonCard,
 } from '@/components/ui';
 
 import {
@@ -39,6 +37,22 @@ export default async function HomePage() {
     getSiteStats(),
   ]);
 
-  const skillCategories = Object.entries(skills);
-
   return (
+    <>
+      <Navbar />
+
+      <main className="min-h-screen">
+        <Section>
+          <SectionHeading>Portfolio</SectionHeading>
+
+          <p>Experiences: {experiences.length}</p>
+          <p>Projects: {projects.length}</p>
+          <p>Workflows: {workflows.length}</p>
+          <p>Certifications: {certifications.length}</p>
+        </Section>
+      </main>
+
+      <Footer />
+    </>
+  );
+}
