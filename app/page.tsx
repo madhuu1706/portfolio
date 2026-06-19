@@ -11,12 +11,13 @@ import {
   getCertifications,
   getSiteStats,
 } from '@/lib/data';
-import { formatDate } from '@/utils/format';
+import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 
-export const metadata: Metadata = {
-  title: 'Madhumithan P R — Program Operations & AI Workflow Systems',
-};
-
+export async function generateStaticParams() {
+  const supabase = createSupabaseClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
 export const revalidate = 60;
 
 export default async function HomePage() {
